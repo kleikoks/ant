@@ -1,0 +1,2 @@
+id,password,last_login,is_superuser,groups,user_permissions,username,first_name,last_name,email,is_staff,is_active,date_joined
+1,pbkdf2_sha256$260000$LxeOZYOGXhHeOl62Tv7YHK$08A5O73GpR4BV+vChCk7H6uL4WdRgnbm2/SdaxdB8pc=,,1,,,kleikoks,,,,1,1,2021-05-16 10:35:03

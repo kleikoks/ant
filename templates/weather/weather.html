@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>What's the weather like?</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+</head>
+<body>
+    <section class="hero is-primary">
+        <div class="column">
+            <span>{{request.user}}</span>
+            <a href="{% url 'api_logout' %}">logout</a>
+        </div>
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    What's the weather like?
+                </h1>
+            </div>
+        </div>
+    </section>
+    {% if messages %}
+    <ul class="messages notification is-warning is-light">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+        <button class="delete"></button>
+    </ul>
+    {% endif %}
+
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-offset-4 is-4">
+                    <form action="{% url 'add_user_city' %}" method="POST">
+                    {% csrf_token %}
+                        <div class="select">
+                            <select name="city">
+                                {% for id, name in handy_cities %}
+                                    <option value='{{ id }}'>{{ name }}</option>
+                                {% endfor %}
+                            </select> 
+                        </div>
+                        <button method='submit' class="button is-light">Додати</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-offset-4 is-4">
+                {% for city in cities %}
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-left">
+                                <figure class="image is-50x50">
+                                    <img src="http://openweathermap.org/img/w/{{ city.icon }}.png" alt="Image">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <span class="title">{{ city.name }}</span>
+                                        <br>
+                                        <span class="subtitle">{{ city.temperature }}° C</span>
+                                        <br> 
+                                        {{ city.description }}
+                                    </p>
+                                </div>
+                            </div>
+                            <form action="{% url 'del_user_city' %}" method="POST">
+                            {% csrf_token %}
+                                <input name='city_id' type="hidden" value="{{ city.city_id }}">
+                                <button class="button is-white">
+                                    <span class="icon has-text-danger">
+                                        <i class="fas fa-ban"></i>
+                                    </span>
+                                </button>
+                            </form>
+                        </article>
+                    </div>
+                {% empty %}
+                <div class="content is-large">VOID</div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    </footer>
+    <script type="text/javascript" src="/static/script.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+        <title>Login</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+    </head>
+    <body>
+        <div class="container ">
+            <div class="notification is-primary">
+                <div class="column is-offset-5 is-5">
+                    <p class="title is-1">Register Form</p>
+                </div>
+            </div>
+        </div>
+            {% if messages %}
+                <ul class="messages notification is-warning is-light">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                    <button class="delete"></button>
+                </ul>
+            {% endif %}
+        <div class="column is-offset-4 is-4">
+            <form action="{% url 'api_register' %}" method='POST'>
+            {% csrf_token %}
+                <div class="field">
+                    <label class="label">Name</label>
+                    <div class="control">
+                        <input name="username" class="input" type="text" placeholder="name">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Password</label>
+                    <div class="control">
+                        <input name="password" class="input" type="password" placeholder="password">
+                    </div>
+                </div>
+                <button class="button is-primary" type="submit">
+                    register
+                </button>
+                <a href="{% url 'login' %}" class="help">Have an account?</p>
+            </form>
+        </div>
+    <script type="text/javascript" src="/static/script.js"></script>
+    </body>
+</html>

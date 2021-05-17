@@ -2,7 +2,8 @@ pip3 install django
 pip3 install djangorestframework
 pip3 install pillow
 pip3 install django-import-export
+pip3 install requests
+pip3 install django_decouple
+
 pip3 install celery
 pip3 install rabbitmq-server
-pip3 install requests
-pip3 install djosen

@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     #third party
     'import_export',
     'rest_framework',
+    'channels',
     #apps
     'project',
     'weather',
@@ -53,6 +54,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
+ASGI_APPLICATION = 'core.asgi.application'
 
 
 # Database

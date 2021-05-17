@@ -6,3 +6,4 @@ pip3 install celery
 pip3 install rabbitmq-server
 pip3 install requests
 pip3 install djosen
+pip3 install channels

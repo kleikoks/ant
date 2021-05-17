@@ -32,3 +32,12 @@ def weather(request):
         'cities': data,
         'handy_cities': handy_cities
     })
+
+
+def chat(request):
+    return render(request, 'weather/chat.html')
+
+def room(request, room):
+    return render(request, 'weather/room.html', {
+        'room_name': room
+    })

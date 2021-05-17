@@ -1,0 +1,14 @@
+[Unit]
+Description=uWSGI Emperor service
+
+[Service]
+StartLimitBurst=0
+ExecStartPre=/bin/bash -c 'mkdir -p /home/kleikoks/projects/ant/src/config; chown kleikoks:www-data /home/kleikoks/projects/ant/src/config'
+ExecStart=/home/kleikoks/projects/ant/venv/bin/uwsgi --emperor /home/kleikoks/projects/ant/src/config 
+Restart=always
+KillSignal=SIGQUIT
+Type=notify
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target 

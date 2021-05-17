@@ -1,0 +1,35 @@
+server {
+    server_name kleikoks.club;
+    charset     utf-8;
+    client_max_body_size 75M;   
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /media  {
+        alias /home/kleikoks/projects/ant/src/media; 
+    }
+    location /static {
+        alias /home/kleikoks/projects/ant/src/static_root; 
+    }
+    location / {
+        uwsgi_pass unix:/home/kleikoks/projects/ant/src/config/ant.sock;
+        include /etc/nginx/uwsgi_params;
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/kleikoks.club/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/kleikoks.club/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+server {
+    if ($host = kleikoks.club) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    listen      80;
+    server_name kleikoks.club;
+    return 404; # managed by Certbot
+
+
+}

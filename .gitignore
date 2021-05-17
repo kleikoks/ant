@@ -6,7 +6,7 @@ db.sqlite3
 venv/
 ENV/
 env/
-config/
+.config/
 
 media/*
 !media/project

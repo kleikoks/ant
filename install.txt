@@ -1,8 +1,0 @@
-pip3 install django
-pip3 install djangorestframework
-pip3 install pillow
-pip3 install django-import-export
-pip3 install requests
-pip3 install djosen
-pip3 install channels
-pip3 install django-decouple

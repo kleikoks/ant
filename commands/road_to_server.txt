@@ -1,0 +1,46 @@
+rm ~/.ssh/known_hosts 
+ssh root@194.195.244.183
+adduser kleikoks
+usermod -aG sudo kleikoks
+ufw allow ssh
+ufw allow http
+ufw allow https
+ufw allow 8000
+yes | ufw enable
+
+ssh kleikoks@194.195.244.183
+sudo apt-get update
+yes | sudo apt-get upgrade
+yes | sudo apt install python3-pip python3-dev libpq-dev python3-venv nginx gcc python3-certbot-nginx
+sudo ufw allow 'Nginx Full'
+sudo -H pip3 install --upgrade pip
+sudo -H pip3 install virtualenv
+
+mkdir projects && cd projects && mkdir ant && cd ant && mkdir src
+python3 -m venv venv
+. venv/bin/activate
+cd src
+git clone https://github.com/kleikoks/ant.git .
+
+pip3 install uwsgi
+pip3 install --upgrade pip
+    uwsgi --http :8080 --home /home/kleikoks/projects/ant/venv --chdir /home/kleikoks/projects/ant/src -w core.wsgi
+sudo ln -s /home/kleikoks/projects/ant/src/config/ant /etc/nginx/sites-enabled/
+sudo ln -s /home/kleikoks/projects/ant/src/config/ant.service /etc/systemd/system/
+
+sudo systemctl enable nginx
+sudo systemctl start nginx
+sudo systemctl restart nginx
+    sudo systemctl status nginx
+
+sudo systemctl enable ant
+sudo systemctl start ant
+sudo systemctl restart ant
+    sudo systemctl status ant
+    sudo systemctl disable ant
+    sudo systemctl stop ant
+
+sudo systemctl daemon-reload
+
+sudo certbot --nginx -d kleikoks.club
+sudo certbot renew --dry-run

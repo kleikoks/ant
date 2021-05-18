@@ -1,10 +1,8 @@
 
 pip3 install channels
 pip3 install channels-redis
-sudo apt-get install redis-server
-sudo systemctl enable redis-server.service
-sudo systemctl disable redis-server.service
+yes | sudo apt-get install redis-server
+    sudo systemctl enable redis-server.service
+    sudo systemctl disable redis-server.service
 
 
-sudo apt-get install redis-server
-sudo apt-get remove redis-server

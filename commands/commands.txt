@@ -3,16 +3,18 @@ pip3 install djangorestframework
 pip3 install pillow
 pip3 install django-import-export
 pip3 install requests
-pip3 install djosen
 pip3 install channels
 pip3 install django-decouple
+
+
+git config --global user.email "kleikoks@gmail.com"
+git config --global user.name "kleikoks"
 
 git add .
 git commit -m 'server'
 git pull 
 git push 
 
-pip3 install -r requirements.txt
 rm db.sqlite3
 find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 python3 manage.py makemigrations 

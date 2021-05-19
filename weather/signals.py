@@ -4,22 +4,11 @@ from asgiref.sync import async_to_sync
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
 from .models import City
-
-
-def send_message(event):
-    message = event['message']
-    channel_layer = channels.layers.get_channel_layer()
-    # Send message to WebSocket
-    async_to_sync(channel_layer.send)(text_data=json.dumps({
-        'message': message
-    }))
 
 
 @receiver(post_save, sender=City, dispatch_uid='send_simple_data')
 def send_simple_data(sender, instance, **kwargs):
-    print('lol')
     group_name = 'weather'
 
     message = {
@@ -32,7 +21,7 @@ def send_simple_data(sender, instance, **kwargs):
     async_to_sync(channel_layer.group_send)(
         group_name,
         {
-            'type': 'send_message',
+            'type': 'add_city',
             'message': message
         }
     )

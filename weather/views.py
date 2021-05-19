@@ -34,12 +34,3 @@ def weather(request):
     })
 
 
-
-def chat(request):
-
-    return render(request, 'weather/chat.html')
-
-def room(request, room):
-    return render(request, 'weather/room.html', {
-        'room_name': room
-    })

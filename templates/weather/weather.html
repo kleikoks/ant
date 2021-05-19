@@ -37,7 +37,7 @@
                     <form action="{% url 'add_user_city' %}" method="POST">
                     {% csrf_token %}
                         <div class="select">
-                            <select name="city">
+                            <select id="city_block" name="city">
                                 {% for id, name in handy_cities %}
                                     <option value='{{ id }}'>{{ name }}</option>
                                 {% endfor %}
@@ -94,5 +94,24 @@
     </footer>
     <script type="text/javascript" src="/static/script.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+        <script>
+        var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+        const weatherSocket = new WebSocket( ws_scheme + '://' + window.location.host + '/ws/weather/');
+        console.log(weatherSocket)
+
+        weatherSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            var select = document.querySelector('#city_block')
+            var option = document.createElement('option')
+            option.value = data.city_id
+            option.innerHTML = data.title
+            select.appendChild(option)
+        };
+
+        weatherSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+    </script>
+
 </body>
 </html>

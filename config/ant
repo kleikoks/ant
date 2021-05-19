@@ -1,3 +1,12 @@
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    '' close;
+}
+upstream websocket {
+    server 0.0.0.0:8000;
+}
+
+
 server {
     server_name kleikoks.club;
     charset     utf-8;
@@ -12,8 +21,8 @@ server {
     location / {
         uwsgi_pass unix:/home/kleikoks/projects/ant/src/config/ant.sock;
         include /etc/nginx/uwsgi_params;
-    }
 
+    }
 
     listen 443 ssl; # managed by Certbot
     ssl_certificate /etc/letsencrypt/live/kleikoks.club/fullchain.pem; # managed by Certbot
@@ -21,7 +30,15 @@ server {
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 
-}
+    location /ws/ {
+        proxy_pass http://websocket;
+        proxy_http_version  1.1;
+        proxy_set_header    Upgrade $http_upgrade;
+        proxy_set_header    Connection $connection_upgrade;
+        proxy_set_header    Host $http_host;
+        proxy_set_header    X-Real-IP $remote_addr;
+        }
+    }
 server {
     if ($host = kleikoks.club) {
         return 301 https://$host$request_uri;

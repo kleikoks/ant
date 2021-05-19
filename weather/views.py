@@ -34,7 +34,9 @@ def weather(request):
     })
 
 
+
 def chat(request):
+
     return render(request, 'weather/chat.html')
 
 def room(request, room):

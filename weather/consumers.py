@@ -3,11 +3,14 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from .models import City
+
 
 class WSConsumer(WebsocketConsumer):
     def connect(self):
-        self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = f'chat_{self.room_name}'
+        self.room_group_name = 'weather'
         # Join room group
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name,
@@ -42,3 +45,4 @@ class WSConsumer(WebsocketConsumer):
         self.send(text_data=json.dumps({
             'message': message
         }))
+
